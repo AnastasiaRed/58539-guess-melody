@@ -38,42 +38,37 @@ document.addEventListener(`keydown`, (event) => {
 
 /* Add visual navigation*/
 
-const arrowsMarkup = document.createElement(`div`);
-arrowsMarkup.classList.add(`arrows__wrap`);
-
-const arrowsStyleCSS = document.createTextNode(`
-.arrows__wrap {
-  position: absolute;
-  top: 135px;
-  left: 50%;
-  margin-left: -56px;
-}
-.arrows__btn {
-  background: none;
-  border: 2px solid black;
-  padding: 5px 20px;
-}
-`);
-const arrowsStyle = document.createElement(`style`);
-arrowsStyle.type = `text/css`;
-arrowsStyle.appendChild(arrowsStyleCSS);
-
-const arrowsButtonPrev = document.createElement(`button`);
-arrowsButtonPrev.classList.add(`arrows__btn`);
-arrowsButtonPrev.textContent = `<-`;
-arrowsButtonPrev.addEventListener(`click`, () => {
-  selectTemplate(currentTemplate - 1);
-})
-
-const arrowsButtonNext = arrowsButtonPrev.cloneNode();
-arrowsButtonNext.textContent = `->`;
-arrowsButtonNext.addEventListener(`click`, () => {
-  selectTemplate(currentTemplate + 1);
-})
-
-arrowsMarkup.appendChild(arrowsStyle);
-arrowsMarkup.appendChild(arrowsButtonPrev);
-arrowsMarkup.appendChild(arrowsButtonNext);
+const arrowsMarkup = `
+  <div class="arrows__wrap">
+    <style>
+      .arrows__wrap {
+        position: absolute;
+        top: 135px;
+        left: 50%;
+        margin-left: -56px;
+      }
+      .arrows__btn {
+        background: none;
+        border: 2px solid black;
+        padding: 5px 20px;
+      }
+    </style>
+    <button class="arrows__btn"><-</button>
+    <button class="arrows__btn">-></button>
+  </div>
+`;
 
 const arrowsContainer = document.querySelector(`.app`);
-arrowsContainer.appendChild(arrowsMarkup);
+arrowsContainer.insertAdjacentHTML(`beforeend`, arrowsMarkup);
+
+const arrowsButtons = arrowsContainer.querySelectorAll(`.arrows__btn`);
+
+const arrowsButtonPrev = arrowsButtons[0];
+arrowsButtonPrev.addEventListener(`click`, () => {
+  selectTemplate(currentTemplate - 1);
+});
+
+const arrowsButtonNext = arrowsButtons[1];
+arrowsButtonNext.addEventListener(`click`, () => {
+  selectTemplate(currentTemplate + 1);
+});
