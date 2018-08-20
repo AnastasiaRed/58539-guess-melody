@@ -89,31 +89,17 @@ gameLogo.addEventListener(`click`, (event) => {
 });
 
 const submitBtn = gameGenreScreen.querySelector(`.game__submit`);
-submitBtn.setAttribute(`disabled`, true);
+submitBtn.disabled = true;
 
-let inputChecked = 0;
-const answerInputs = gameGenreScreen.querySelectorAll(`.game__input`);
+const answerInputs = Array.from(gameGenreScreen.querySelectorAll(`.game__input`));
 answerInputs.forEach((input) => {
   input.addEventListener(`change`, () => {
-    inputChecked = input.checked ? inputChecked + 1 : inputChecked - 1;
-    if (inputChecked > 0) {
-      submitBtn.removeAttribute(`disabled`);
-    } else {
-      submitBtn.setAttribute(`disabled`, true);
-    }
+    const inputChecked = answerInputs.some((elem) => elem.checked);
+    submitBtn.disabled = !inputChecked;
   });
 });
 
-const cleanResults = (inputs) => {
-  inputChecked = 0;
-  inputs.forEach((input) => {
-    input.checked = false;
-  });
-  submitBtn.setAttribute(`disabled`, true);
-};
-
 submitBtn.addEventListener(`click`, () => {
-  cleanResults(answerInputs);
   showScreen(gameArtistScreen);
 });
 
