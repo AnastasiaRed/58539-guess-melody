@@ -1,5 +1,3 @@
-import INITIAL_GAME from './data/game';
-
 export const getElementFromTemplate = (template) => {
   let element = document.createElement(`div`);
   element.innerHTML = template.trim();
@@ -7,10 +5,9 @@ export const getElementFromTemplate = (template) => {
   return element;
 };
 
-// const main = document.querySelector(`.main`);
 export const showScreen = (screen) => {
-  // main.innerHTML = ``;
-  // main.appendChild(screen);
+  window.main.innerHTML = ``;
+  window.main.appendChild(screen);
 };
 
 export const changeLevel = (game, level) => {
@@ -54,9 +51,9 @@ export const changeTime = (game, time) => {
   return newGame;
 };
 
-export const calculateScore = (answers, lives) => {
+export const calculateScore = (answers, lives, game) => {
   const LONG_TIME = 30;
-  const INIT_GAME_LIVES = INITIAL_GAME.lives;
+  const INIT_GAME_LIVES = game.lives;
 
   if (answers.length < 10 || lives < 0) {
     return -1;

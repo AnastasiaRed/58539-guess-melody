@@ -113,22 +113,22 @@ const testArrayAnswered5Long5Fast = [
 
 describe(`calculateScore()`, () => {
   it(`should return -1 if total answers is less than 10`, () => {
-    assert.equal(calculateScore(testArray7Answers, 2), -1);
+    assert.equal(calculateScore(testArray7Answers, 2, INITIAL_GAME), -1);
   });
 
   it(`should return -1 if there is no lives`, () => {
-    assert.equal(calculateScore(testArrayAnsweredLong, -1), -1);
+    assert.equal(calculateScore(testArrayAnsweredLong, -1, INITIAL_GAME), -1);
   });
 
   it(`should return -1 if right answers is less than 8`, () => {
-    assert.equal(calculateScore(testArrayAnsweredRightLess8, 2), -1);
+    assert.equal(calculateScore(testArrayAnsweredRightLess8, 2, INITIAL_GAME), -1);
   });
 
   it(`should calculate right score`, () => {
-    assert.equal(calculateScore(testArrayAnsweredLong, 2), 10);
-    assert.equal(calculateScore(testArrayAnsweredLong, 0), 6);
-    assert.equal(calculateScore(testArrayAnsweredFast, 2), 20);
-    assert.equal(calculateScore(testArrayAnswered5Long5Fast, 1), 13);
+    assert.equal(calculateScore(testArrayAnsweredLong, 2, INITIAL_GAME), 10);
+    assert.equal(calculateScore(testArrayAnsweredLong, 0, INITIAL_GAME), 6);
+    assert.equal(calculateScore(testArrayAnsweredFast, 2, INITIAL_GAME), 20);
+    assert.equal(calculateScore(testArrayAnswered5Long5Fast, 1, INITIAL_GAME), 13);
   });
 });
 
