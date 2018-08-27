@@ -1,3 +1,5 @@
+import INITIAL_GAME from './data/game';
+
 export const getElementFromTemplate = (template) => {
   let element = document.createElement(`div`);
   element.innerHTML = template.trim();
@@ -6,11 +8,12 @@ export const getElementFromTemplate = (template) => {
 };
 
 export const showScreen = (screen) => {
-  window.main.innerHTML = ``;
-  window.main.appendChild(screen);
+  const main = document.querySelector(`.main`);
+  main.innerHTML = ``;
+  main.appendChild(screen);
 };
 
-export const changeLevel = (game, level) => {
+export const changeLevel = (level) => {
   if (typeof level !== `number`) {
     throw new Error(`Level should be of type number`);
   }
@@ -19,24 +22,24 @@ export const changeLevel = (game, level) => {
     throw new Error(`Level should not be negative value`);
   }
 
-  const newGame = Object.assign({}, game, {
+  const newGame = Object.assign({}, INITIAL_GAME, {
     level
   });
   return newGame;
 };
 
-export const changeLife = (game, lives) => {
+export const changeLife = (lives) => {
   if (typeof lives !== `number`) {
     throw new Error(`Life should be of type number`);
   }
 
-  const newGame = Object.assign({}, game, {
+  const newGame = Object.assign({}, INITIAL_GAME, {
     lives
   });
   return newGame;
 };
 
-export const changeTime = (game, time) => {
+export const changeTime = (time) => {
   if (typeof time !== `number`) {
     throw new Error(`Time should be of type number`);
   }
@@ -45,29 +48,28 @@ export const changeTime = (game, time) => {
     throw new Error(`Time should not be negative value`);
   }
 
-  const newGame = Object.assign({}, game, {
+  const newGame = Object.assign({}, INITIAL_GAME, {
     time
   });
   return newGame;
 };
 
-export const calculateScore = (answers, lives, game) => {
-  const LONG_TIME = 30;
-  const INIT_GAME_LIVES = game.lives;
+export const calculateScore = (answers, lives) => {
+  const LONG_TIME = INITIAL_GAME.longTimeAnswer;
+  const INIT_GAME_LIVES = INITIAL_GAME.lives;
 
   if (answers.length < 10 || lives < 0) {
     return -1;
   }
 
-  const wrongAnswers = answers.filter((element) => element.answer === 0);
+  const wrongAnswers = answers.filter((element) => !element.answer);
   if (wrongAnswers.length > 2) {
     return -1;
   }
 
-  let answerScore = 0;
-  answers.forEach((element) => {
-    answerScore += element.time >= LONG_TIME ? 1 : 2;
-  });
+  const answerScore = answers.reduce((score, answer) => {
+    return score + (answer.time >= LONG_TIME ? 1 : 2);
+  }, 0);
 
   const livesScore = (INIT_GAME_LIVES - lives) * 2;
   const totalScore = answerScore - livesScore;
@@ -75,9 +77,10 @@ export const calculateScore = (answers, lives, game) => {
   return totalScore;
 };
 
-export const getResultMessage = (curResult, otherResults) => {
-  const MESSAGE_FAIL_NO_TIME = `Время вышло! Вы не успели отгадать все мелодии`;
-  const MESSAGE_FAIL_NO_LIVES = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+export const getResultMessage = (curResult, otherResults, messages) => {
+  const MESSAGE_FAIL_NO_LIVES = messages.failNoLives;
+  const MESSAGE_FAIL_NO_TIME = messages.failNoTime;
+  const MESSAGE_SUCCESS = messages.success;
 
   if (curResult.lives < 0) {
     return MESSAGE_FAIL_NO_LIVES;
@@ -92,9 +95,9 @@ export const getResultMessage = (curResult, otherResults) => {
 
   const curPosition = otherResults.indexOf(curResult.score) + 1;
   const betterThan = (otherResults.length - curPosition) / otherResults.length * 100;
-  const MESSAGE_SUCCESS = `Вы заняли ${curPosition} место из ${otherResults.length} игроков. Это лучше, чем у ${betterThan}% игроков`;
+  const curMessageSuccess = MESSAGE_SUCCESS.replace(`$position`, curPosition).replace(`$others`, otherResults.length).replace(`$betterThan`, betterThan);
 
-  return MESSAGE_SUCCESS;
+  return curMessageSuccess;
 };
 
 export const getWordEnding = (amount, endings) => {
