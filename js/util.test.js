@@ -141,19 +141,19 @@ const testArrayCurResults = {score: 10, lives: 1, time: 10};
 
 describe(`getResultMessage()`, () => {
   it(`should return У вас закончились все попытки... if there is no lives`, () => {
-    assert.equal(getResultMessage(testArrayCurResultsNoLives, testArrayOtherResults, MESSAGES), `У вас закончились все попытки. Ничего, повезёт в следующий раз!`);
+    assert.equal(getResultMessage(testArrayCurResultsNoLives, testArrayOtherResults), MESSAGES.failNoLives);
   });
 
   it(`should return Время вышло... if there is no time`, () => {
-    assert.equal(getResultMessage(testArrayCurResultsNoTime, testArrayOtherResults, MESSAGES), `Время вышло! Вы не успели отгадать все мелодии`);
+    assert.equal(getResultMessage(testArrayCurResultsNoTime, testArrayOtherResults), MESSAGES.failNoTime);
   });
 
   it(`should return У вас закончились все попытки... if there is no lives and no time`, () => {
-    assert.equal(getResultMessage(testArrayCurResultsNoTimeNoLives, testArrayOtherResults, MESSAGES), `У вас закончились все попытки. Ничего, повезёт в следующий раз!`);
+    assert.equal(getResultMessage(testArrayCurResultsNoTimeNoLives, testArrayOtherResults), MESSAGES.failNoLives);
   });
 
   it(`should return Вы заняли ... if the score is used`, () => {
-    assert.equal(getResultMessage(testArrayCurResults, testArrayOtherResults, MESSAGES), `Вы заняли 2 место из 5 игроков. Это лучше, чем у 60% игроков`);
+    assert.equal(getResultMessage(testArrayCurResults, testArrayOtherResults), MESSAGES.success.replace(`$position`, 2).replace(`$others`, 5).replace(`$betterThan`, 60));
   });
 });
 

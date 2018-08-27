@@ -1,4 +1,5 @@
 import INITIAL_GAME from './data/game';
+import MESSAGES from './data/messages';
 
 export const getElementFromTemplate = (template) => {
   let element = document.createElement(`div`);
@@ -77,10 +78,10 @@ export const calculateScore = (answers, lives) => {
   return totalScore;
 };
 
-export const getResultMessage = (curResult, otherResults, messages) => {
-  const MESSAGE_FAIL_NO_LIVES = messages.failNoLives;
-  const MESSAGE_FAIL_NO_TIME = messages.failNoTime;
-  const MESSAGE_SUCCESS = messages.success;
+export const getResultMessage = (curResult, otherResults) => {
+  const MESSAGE_FAIL_NO_LIVES = MESSAGES.failNoLives;
+  const MESSAGE_FAIL_NO_TIME = MESSAGES.failNoTime;
+  const MESSAGE_SUCCESS = MESSAGES.success;
 
   if (curResult.lives < 0) {
     return MESSAGE_FAIL_NO_LIVES;
