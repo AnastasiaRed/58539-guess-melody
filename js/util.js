@@ -79,16 +79,14 @@ export const calculateScore = (answers, lives) => {
 };
 
 export const getResultMessage = (curResult, otherResults) => {
-  const MESSAGE_FAIL_NO_LIVES = MESSAGES.failNoLives;
-  const MESSAGE_FAIL_NO_TIME = MESSAGES.failNoTime;
-  const MESSAGE_SUCCESS = MESSAGES.success;
+  const {failNoLives, failNoTime, success} = MESSAGES;
 
   if (curResult.lives < 0) {
-    return MESSAGE_FAIL_NO_LIVES;
+    return failNoLives;
   }
 
   if (curResult.time <= 0) {
-    return MESSAGE_FAIL_NO_TIME;
+    return failNoTime;
   }
 
   otherResults.push(curResult.score);
@@ -96,7 +94,7 @@ export const getResultMessage = (curResult, otherResults) => {
 
   const curPosition = otherResults.indexOf(curResult.score) + 1;
   const betterThan = (otherResults.length - curPosition) / otherResults.length * 100;
-  const curMessageSuccess = MESSAGE_SUCCESS.replace(`$position`, curPosition).replace(`$others`, otherResults.length).replace(`$betterThan`, betterThan);
+  const curMessageSuccess = success(curPosition, otherResults.length, betterThan);
 
   return curMessageSuccess;
 };

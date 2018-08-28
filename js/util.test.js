@@ -153,7 +153,7 @@ describe(`getResultMessage()`, () => {
   });
 
   it(`should return Вы заняли ... if the score is used`, () => {
-    assert.equal(getResultMessage(testArrayCurResults, testArrayOtherResults), MESSAGES.success.replace(`$position`, 2).replace(`$others`, 5).replace(`$betterThan`, 60));
+    assert.equal(getResultMessage(testArrayCurResults, testArrayOtherResults), MESSAGES.success(2, 5, 60));
   });
 });
 
