@@ -1,4 +1,4 @@
-import INITIAL_GAME from './data/game';
+import {INITIAL_GAME} from './data/game';
 import MESSAGES from './data/messages';
 
 export const getElementFromTemplate = (template) => {

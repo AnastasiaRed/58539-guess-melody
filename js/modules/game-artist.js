@@ -1,76 +1,48 @@
 import {getElementFromTemplate, showScreen} from '../util';
-import welcomeScreen from './welcome';
 import resultSuccessScreen from './result-success';
 import failTimeScreen from './fail-time';
 import failTriesScreen from './fail-tries';
+import {INITIAL_GAME} from '../data/game';
 
-const template = `
-  <section class="game game--artist">
-    <header class="game__header">
-      <a class="game__back" href="#">
-        <span class="visually-hidden">Сыграть ещё раз</span>
-        <img class="game__logo" src="img/melody-logo-ginger.png" alt="Угадай мелодию">
-      </a>
+const levels = [
+  {
+    question: `Кто исполняет эту песню?`,
+    tracks: new Set([`tracks1`]),
+    answers: new Set([`answer1`, `answer2`, `answer3`])
+  },
+  {
+    question: `А эту кто исполняет?`,
+    tracks: new Set([`tracks1`]),
+    answers: new Set([`answer1`, `answer2`, `answer3`])
+  }
+];
 
-      <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-        <circle class="timer__line" cx="390" cy="390" r="370" style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center" />
-      </svg>
+const template = (level) => `
+  <section class="game__screen">
+    <h2 class="game__title">${level.question}</h2>
 
-      <div class="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-        <span class="timer__mins">05</span>
-        <span class="timer__dots">:</span>
-        <span class="timer__secs">00</span>
-      </div>
+    ${[...level.tracks].map((track) => `<div class="game__track">
+      <button class="track__button track__button--play" type="button"></button>
+      <audio>
+        ${track}
+      </audio>
+    </div>`).join(``)}
 
-      <div class="game__mistakes">
-        <div class="wrong"></div>
-        <div class="wrong"></div>
-        <div class="wrong"></div>
-      </div>
-    </header>
+    <form class="game__artist">
 
-    <section class="game__screen">
-      <h2 class="game__title">Кто исполняет эту песню?</h2>
-      <div class="game__track">
-        <button class="track__button track__button--play" type="button"></button>
-        <audio></audio>
-      </div>
+      ${[...level.answers].map((answer) => `
+      <div class="artist">
+        <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-1" id="answer-1">
+        <label class="artist__name" for="answer-1">
+          <img class="artist__picture" src="http://placehold.it/134x134" alt="${answer}">
+          ${answer}
+        </label>
+      </div>`).join(``)}
 
-      <form class="game__artist">
-        <div class="artist">
-          <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-1" id="answer-1">
-          <label class="artist__name" for="answer-1">
-            <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-            Пелагея
-          </label>
-        </div>
-
-        <div class="artist">
-          <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-2" id="answer-2">
-          <label class="artist__name" for="answer-2">
-            <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-            Краснознаменная дивизия имени моей бабушки
-          </label>
-        </div>
-
-        <div class="artist">
-          <input class="artist__input visually-hidden" type="radio" name="answer" value="artist-3" id="answer-3">
-          <label class="artist__name" for="answer-3">
-            <img class="artist__picture" src="http://placehold.it/134x134" alt="Пелагея">
-            Lorde
-          </label>
-        </div>
-      </form>
-    </section>
+    </form>
   </section>
 `;
-const gameArtistScreen = getElementFromTemplate(template);
-
-const gameLogo = gameArtistScreen.querySelector(`.game__back`);
-gameLogo.addEventListener(`click`, (event) => {
-  event.preventDefault();
-  showScreen(welcomeScreen);
-});
+const gameArtistScreen = getElementFromTemplate(template(levels[INITIAL_GAME.level]));
 
 const resultScreens = [resultSuccessScreen, failTimeScreen, failTriesScreen];
 const artists = gameArtistScreen.querySelectorAll(`.artist`);
