@@ -1,4 +1,4 @@
-import {INITIAL_GAME} from './data/game';
+import INITIAL_GAME from './data/game';
 import MESSAGES from './data/messages';
 
 export const getElementFromTemplate = (template) => {
@@ -56,7 +56,7 @@ export const changeTime = (time) => {
 };
 
 export const calculateScore = (answers, lives) => {
-  const LONG_TIME = INITIAL_GAME.longTimeAnswer;
+  const LONG_TIME = INITIAL_GAME.time.longAnswer;
   const INIT_GAME_LIVES = INITIAL_GAME.lives;
 
   if (answers.length < 10 || lives < 0) {
