@@ -58,6 +58,15 @@ export default (question) => {
         submitBtn.disabled = !inputChecked;
       });
     });
+  } else {
+    const answerInputs = Array.from(gameScreen.querySelectorAll(`.artist__input`));
+    const form = gameScreen.querySelector(`.game__artist`);
+    answerInputs.forEach((input) => {
+      input.addEventListener(`click`, () => {
+        const event = new Event(`submit`, {bubbles: true, cancelable: true});
+        form.dispatchEvent(event);
+      });
+    });
   }
 
   return gameScreen;

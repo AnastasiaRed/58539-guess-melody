@@ -1,52 +1,53 @@
 import {assert} from 'chai';
 import {changeLevel, changeLife, changeTime, calculateScore, getResultMessage, getWordEnding} from './util';
+import INITIAL_GAME from './data/game';
 import MESSAGES from './data/messages';
 import WORD_ENDINGS from './data/word-endings';
 
 describe(`changeLevel()`, () => {
   it(`should update level of the game`, () => {
-    assert.equal(changeLevel(1).level, 1);
-    assert.equal(changeLevel(2).level, 2);
-    assert.equal(changeLevel(10).level, 10);
-    assert.equal(changeLevel(102).level, 102);
+    assert.equal(changeLevel(INITIAL_GAME, 1).level, 1);
+    assert.equal(changeLevel(INITIAL_GAME, 2).level, 2);
+    assert.equal(changeLevel(INITIAL_GAME, 10).level, 10);
+    assert.equal(changeLevel(INITIAL_GAME, 102).level, 102);
   });
 
   it(`should not allow set negative values`, () => {
-    assert.throws(() => changeLevel(-1).level, /Level should not be negative value/);
+    assert.throws(() => changeLevel(INITIAL_GAME, -1).level, /Level should not be negative value/);
   });
 
   it(`should not allow set non number value`, () => {
-    assert.throws(() => changeLevel([]).level, /Level should be of type number/);
+    assert.throws(() => changeLevel(INITIAL_GAME, []).level, /Level should be of type number/);
   });
 });
 
 describe(`changeLife()`, () => {
   it(`should update lives of the game`, () => {
-    assert.equal(changeLife(1).lives, 1);
-    assert.equal(changeLife(2).lives, 2);
-    assert.equal(changeLife(10).lives, 10);
-    assert.equal(changeLife(102).lives, 102);
+    assert.equal(changeLife(INITIAL_GAME, 1).lives, 1);
+    assert.equal(changeLife(INITIAL_GAME, 2).lives, 2);
+    assert.equal(changeLife(INITIAL_GAME, 10).lives, 10);
+    assert.equal(changeLife(INITIAL_GAME, 102).lives, 102);
   });
 
   it(`should not allow set non number value`, () => {
-    assert.throws(() => changeLife([]).level, /Life should be of type number/);
+    assert.throws(() => changeLife(INITIAL_GAME, []).level, /Life should be of type number/);
   });
 });
 
 describe(`changeTime()`, () => {
   it(`should update time of the game`, () => {
-    assert.equal(changeTime(1).time, 1);
-    assert.equal(changeTime(2).time, 2);
-    assert.equal(changeTime(10).time, 10);
-    assert.equal(changeTime(102).time, 102);
+    assert.equal(changeTime(INITIAL_GAME, 1).time, 1);
+    assert.equal(changeTime(INITIAL_GAME, 2).time, 2);
+    assert.equal(changeTime(INITIAL_GAME, 10).time, 10);
+    assert.equal(changeTime(INITIAL_GAME, 102).time, 102);
   });
 
   it(`should not allow set negative values`, () => {
-    assert.throws(() => changeTime(-1).time, /Time should not be negative value/);
+    assert.throws(() => changeTime(INITIAL_GAME, -1).time, /Time should not be negative value/);
   });
 
   it(`should not allow set non number value`, () => {
-    assert.throws(() => changeTime([]).time, /Time should be of type number/);
+    assert.throws(() => changeTime(INITIAL_GAME, []).time, /Time should be of type number/);
   });
 });
 
@@ -153,7 +154,7 @@ describe(`getResultMessage()`, () => {
   });
 
   it(`should return Вы заняли ... if the score is used`, () => {
-    assert.equal(getResultMessage(testArrayCurResults, testArrayOtherResults), MESSAGES.success(2, 5, 60));
+    assert.equal(getSuccesMessage(testArrayCurResults, testArrayOtherResults), MESSAGES.success(2, 5, 60));
   });
 });
 
