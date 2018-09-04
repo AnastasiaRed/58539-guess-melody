@@ -40,7 +40,7 @@ export default (result, statistics) => {
   `;
 
   let curData;
-  if (result.mistakes > 0) {
+  if (result.lives < 0) {
     curData = failLivesData;
   } else if (result.time.total <= 0) {
     curData = failTimeData;

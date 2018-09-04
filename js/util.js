@@ -99,6 +99,7 @@ export const getResult = (answers, game) => {
         return this.total % 60;
       }
     },
+    lives: game.lives,
     mistakes: INIT_GAME_LIVES - game.lives
   };
 
@@ -108,7 +109,7 @@ export const getResult = (answers, game) => {
 export const getResultMessage = (curResult) => {
   const {failNoLives, failNoTime, success} = MESSAGES;
 
-  if (curResult.mistakes > 3) {
+  if (curResult.lives < 0) {
     return failNoLives;
   }
 

@@ -38,4 +38,4 @@ export default (state) => {
   });
 
   return gameHeaderScreen;
-}
+};

@@ -43,7 +43,6 @@ const startGame = () => {
 
     if (isUserAnswerCorrect) {
       result.push({answer: true, time: 40});
-
     } else {
       game = changeLife(game, game.lives - 1);
       result.push({answer: false, time: 40});
