@@ -9,7 +9,7 @@ export default (question) => {
           <div class="track">
             <button class="track__button track__button--play" type="button"></button>
             <div class="track__status">
-              <audio>${track[1].name}</audio>
+              <audio src="${track[1].src}"></audio>
             </div>
             <div class="game__answer">
               <input class="game__input visually-hidden" type="checkbox" name="answer" value="answer-${i}" id="answer-${i}">
@@ -27,9 +27,7 @@ export default (question) => {
       <h2 class="game__title">${question.text}</h2>
       <div class="game__track">
         <button class="track__button track__button--play" type="button"></button>
-        <audio>
-          ${question.track}
-        </audio>
+        <audio src="${question.tracks[`track-0`].src}"></audio>
       </div>
       <form class="game__artist">
         ${[...Object.entries(question.answers)].map((answer, i) => `

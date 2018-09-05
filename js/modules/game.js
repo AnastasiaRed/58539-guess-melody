@@ -6,8 +6,9 @@ import STATISTICS from '../data/statistics';
 
 import renderHeader from './game-header';
 import renderLevel from './game-level';
-
 import renderResult from './result';
+
+import startPlayer from '../audio';
 
 let game;
 
@@ -61,12 +62,12 @@ const startGame = () => {
       return;
     }
     updateGame(game);
+    startPlayer();
   });
 
   updateGame(game);
   showScreen(gameContainerElement);
+  startPlayer();
 };
-
-startGame();
 
 export default startGame;
