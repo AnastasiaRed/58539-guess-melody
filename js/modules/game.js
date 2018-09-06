@@ -17,25 +17,24 @@ const startGame = () => {
   const result = [];
 
   const gameContainerElement = getElementFromTemplate(`<section class="game"></section>`);
-  const gameHeaderElement = getElementFromTemplate(`<div></div>`);
-  const gameLevelElement = getElementFromTemplate(`<div></div>`);
-
-  gameContainerElement.appendChild(gameHeaderElement);
-  gameContainerElement.appendChild(gameLevelElement);
 
   const updateGame = (state) => {
-    gameHeaderElement.innerHTML = ``;
-    gameHeaderElement.appendChild(renderHeader(state));
-    gameLevelElement.innerHTML = ``;
-    gameLevelElement.appendChild(renderLevel(QUESTIONS[state.level]));
+    gameContainerElement.innerHTML = ``;
+    gameContainerElement.appendChild(renderHeader(state));
+    gameContainerElement.appendChild(renderLevel(QUESTIONS[state.level]));
   };
 
-  gameLevelElement.addEventListener(`submit`, (event) => {
+  gameContainerElement.addEventListener(`submit`, (event) => {
     event.preventDefault();
 
     const currentQuestion = QUESTIONS[game.level];
-    const answers = [...Object.entries(currentQuestion.answers)];
-    const correctAnswers = answers.filter((answer) => answer[1].isCorrect).map((answer) => answer[0]);
+    const answers = currentQuestion.answers;
+    const correctAnswers = [];
+    answers.forEach((answer, i)=>{
+      if (answer.isCorrect) {
+        correctAnswers.push(`answer-${i}`);
+      }
+    });
 
     const inputs = Array.from(event.target.elements);
     const userAnswers = inputs.filter((input) => input.checked).map((input) => input.value);

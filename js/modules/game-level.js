@@ -5,11 +5,11 @@ export default (question) => {
     <section class="game__screen">
       <h2 class="game__title">${question.text}</h2>
       <form class="game__tracks">
-        ${[...Object.entries(question.tracks)].map((track, i) => `
+        ${question.tracks.map((track, i) => `
           <div class="track">
             <button class="track__button track__button--play" type="button"></button>
             <div class="track__status">
-              <audio src="${track[1].src}"></audio>
+              <audio src="${track.src}"></audio>
             </div>
             <div class="game__answer">
               <input class="game__input visually-hidden" type="checkbox" name="answer" value="answer-${i}" id="answer-${i}">
@@ -27,15 +27,15 @@ export default (question) => {
       <h2 class="game__title">${question.text}</h2>
       <div class="game__track">
         <button class="track__button track__button--play" type="button"></button>
-        <audio src="${question.tracks[`track-0`].src}"></audio>
+        <audio src="${question.tracks[0].src}"></audio>
       </div>
       <form class="game__artist">
-        ${[...Object.entries(question.answers)].map((answer, i) => `
+        ${question.answers.map((answer, i) => `
         <div class="artist">
           <input class="artist__input visually-hidden" type="radio" name="answer" value="answer-${i}" id="answer-${i}">
           <label class="artist__name" for="answer-${i}">
-            <img class="artist__picture" src="${answer[1].image}" alt="${answer[1].text}">
-            ${answer[1].text}
+            <img class="artist__picture" src="${answer.image}" alt="${answer.text}">
+            ${answer.text}
           </label>
         </div>`).join(``)}
       </form>
