@@ -1,60 +1,57 @@
 import {assert} from 'chai';
-import {changeLevel, changeLife, changeTime, calculateScore, getResultMessage, getWordEnding} from './util';
+import {changeLevel, changeLife, changeTime, calculateScore, getResultMessage, getRatingMessage, getWordEnding} from './util';
+import INITIAL_GAME from './data/game';
 import MESSAGES from './data/messages';
 import WORD_ENDINGS from './data/word-endings';
 
 describe(`changeLevel()`, () => {
   it(`should update level of the game`, () => {
-    assert.equal(changeLevel(1).level, 1);
-    assert.equal(changeLevel(2).level, 2);
-    assert.equal(changeLevel(10).level, 10);
-    assert.equal(changeLevel(102).level, 102);
+    assert.equal(changeLevel(INITIAL_GAME, 1).level, 1);
+    assert.equal(changeLevel(INITIAL_GAME, 2).level, 2);
+    assert.equal(changeLevel(INITIAL_GAME, 10).level, 10);
+    assert.equal(changeLevel(INITIAL_GAME, 102).level, 102);
   });
 
   it(`should not allow set negative values`, () => {
-    assert.throws(() => changeLevel(-1).level, /Level should not be negative value/);
+    assert.throws(() => changeLevel(INITIAL_GAME, -1).level, /Level should not be negative value/);
   });
 
   it(`should not allow set non number value`, () => {
-    assert.throws(() => changeLevel([]).level, /Level should be of type number/);
+    assert.throws(() => changeLevel(INITIAL_GAME, []).level, /Level should be of type number/);
   });
 });
 
 describe(`changeLife()`, () => {
   it(`should update lives of the game`, () => {
-    assert.equal(changeLife(1).lives, 1);
-    assert.equal(changeLife(2).lives, 2);
-    assert.equal(changeLife(10).lives, 10);
-    assert.equal(changeLife(102).lives, 102);
+    assert.equal(changeLife(INITIAL_GAME, 1).lives, 1);
+    assert.equal(changeLife(INITIAL_GAME, 2).lives, 2);
+    assert.equal(changeLife(INITIAL_GAME, 10).lives, 10);
+    assert.equal(changeLife(INITIAL_GAME, 102).lives, 102);
   });
 
   it(`should not allow set non number value`, () => {
-    assert.throws(() => changeLife([]).level, /Life should be of type number/);
+    assert.throws(() => changeLife(INITIAL_GAME, []).level, /Life should be of type number/);
   });
 });
 
 describe(`changeTime()`, () => {
   it(`should update time of the game`, () => {
-    assert.equal(changeTime(1).time, 1);
-    assert.equal(changeTime(2).time, 2);
-    assert.equal(changeTime(10).time, 10);
-    assert.equal(changeTime(102).time, 102);
+    assert.equal(changeTime(INITIAL_GAME, 1).time, 1);
+    assert.equal(changeTime(INITIAL_GAME, 2).time, 2);
+    assert.equal(changeTime(INITIAL_GAME, 10).time, 10);
+    assert.equal(changeTime(INITIAL_GAME, 102).time, 102);
   });
 
   it(`should not allow set negative values`, () => {
-    assert.throws(() => changeTime(-1).time, /Time should not be negative value/);
+    assert.throws(() => changeTime(INITIAL_GAME, -1).time, /Time should not be negative value/);
   });
 
   it(`should not allow set non number value`, () => {
-    assert.throws(() => changeTime([]).time, /Time should be of type number/);
+    assert.throws(() => changeTime(INITIAL_GAME, []).time, /Time should be of type number/);
   });
 });
 
-const testArray7Answers = [
-  {answer: true, time: 40},
-  {answer: true, time: 40},
-  {answer: true, time: 40},
-  {answer: true, time: 40},
+const testArray3Answers = [
   {answer: true, time: 40},
   {answer: true, time: 40},
   {answer: true, time: 40}
@@ -113,8 +110,8 @@ const testArrayAnswered5Long5Fast = [
 ];
 
 describe(`calculateScore()`, () => {
-  it(`should return -1 if total answers is less than 10`, () => {
-    assert.equal(calculateScore(testArray7Answers, 2), -1);
+  it(`should return -1 if total answers is less than questions`, () => {
+    assert.equal(calculateScore(testArray3Answers, 2), -1);
   });
 
   it(`should return -1 if there is no lives`, () => {
@@ -126,34 +123,40 @@ describe(`calculateScore()`, () => {
   });
 
   it(`should calculate right score`, () => {
-    assert.equal(calculateScore(testArrayAnsweredLong, 2), 10);
-    assert.equal(calculateScore(testArrayAnsweredLong, 0), 6);
-    assert.equal(calculateScore(testArrayAnsweredFast, 2), 20);
-    assert.equal(calculateScore(testArrayAnswered5Long5Fast, 1), 13);
+    assert.equal(calculateScore(testArrayAnsweredLong, 2), 8);
+    assert.equal(calculateScore(testArrayAnsweredLong, 0), 4);
+    assert.equal(calculateScore(testArrayAnsweredFast, 2), 18);
+    assert.equal(calculateScore(testArrayAnswered5Long5Fast, 1), 11);
   });
 });
 
 const testArrayOtherResults = [4, 5, 8, 11];
-const testArrayCurResultsNoLives = {score: 10, lives: -1, time: 20};
-const testArrayCurResultsNoTime = {score: 10, lives: 0, time: 0};
-const testArrayCurResultsNoTimeNoLives = {score: 10, lives: -1, time: 0};
-const testArrayCurResults = {score: 10, lives: 1, time: 10};
+const testArrayCurResultsNoLives = {score: {total: 10, fast: 0}, lives: -1, time: {total: 20}};
+const testArrayCurResultsNoTime = {score: {total: 10, fast: 0}, lives: 0, time: {total: 0}};
+const testArrayCurResultsNoTimeNoLives = {score: {total: 10, fast: 0}, lives: -1, time: {total: 0}};
+const testArrayCurResults = {score: {total: 10, fast: 0}, lives: 1, mistakes: 2, time: {total: 10, minutes: 0, seconds: 10}};
 
 describe(`getResultMessage()`, () => {
   it(`should return У вас закончились все попытки... if there is no lives`, () => {
-    assert.equal(getResultMessage(testArrayCurResultsNoLives, testArrayOtherResults), MESSAGES.failNoLives);
+    assert.equal(getResultMessage(testArrayCurResultsNoLives), MESSAGES.failNoLives);
   });
 
   it(`should return Время вышло... if there is no time`, () => {
-    assert.equal(getResultMessage(testArrayCurResultsNoTime, testArrayOtherResults), MESSAGES.failNoTime);
+    assert.equal(getResultMessage(testArrayCurResultsNoTime), MESSAGES.failNoTime);
   });
 
   it(`should return У вас закончились все попытки... if there is no lives and no time`, () => {
-    assert.equal(getResultMessage(testArrayCurResultsNoTimeNoLives, testArrayOtherResults), MESSAGES.failNoLives);
+    assert.equal(getResultMessage(testArrayCurResultsNoTimeNoLives), MESSAGES.failNoLives);
   });
 
-  it(`should return Вы заняли ... if the score is used`, () => {
-    assert.equal(getResultMessage(testArrayCurResults, testArrayOtherResults), MESSAGES.success(2, 5, 60));
+  it(`should return За ... время, вы набрали ... if the score is used`, () => {
+    assert.equal(getResultMessage(testArrayCurResults), MESSAGES.success({total: 10, minutes: 0, seconds: 10}, {total: 10, fast: 0}, 2));
+  });
+});
+
+describe(`getRatingMessage()`, () => {
+  it(`should return Вы заняли ... место из ... if the score is used`, () => {
+    assert.equal(getRatingMessage(testArrayCurResults.score.total, testArrayOtherResults), MESSAGES.rating(2, 5, 60));
   });
 });
 
