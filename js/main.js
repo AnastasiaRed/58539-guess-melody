@@ -1,4 +1,5 @@
-import {showScreen} from './util';
-import welcomeScreen from './modules/welcome';
+import {showScreen} from './utils/util';
+import WelcomeView from './views/welcome-view';
 
-showScreen(welcomeScreen());
+const curView = new WelcomeView();
+showScreen(curView.element);

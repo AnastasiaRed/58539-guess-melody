@@ -1,6 +1,6 @@
-import INITIAL_GAME from './data/game';
-import QUESTIONS from './data/questions';
-import MESSAGES from './data/messages';
+import INITIAL_GAME from '../data/game';
+import QUESTIONS from '../data/questions';
+import MESSAGES from '../data/messages';
 
 export const getElementFromTemplate = (template) => {
   let element = document.createElement(`div`);

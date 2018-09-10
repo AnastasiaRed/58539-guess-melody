@@ -1,5 +1,5 @@
 import WORD_ENDINGS from '../data/word-endings';
-import {getWordEnding} from '../util';
+import {getWordEnding} from '../utils/util';
 
 const MESSAGES = Object.freeze({
   failNoTime: `Время вышло! Вы не успели отгадать все мелодии`,

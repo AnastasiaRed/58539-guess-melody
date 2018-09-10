@@ -1,4 +1,3 @@
-
 const QUESTIONS = [
   {
     type: `artist`,

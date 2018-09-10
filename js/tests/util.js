@@ -1,8 +1,9 @@
+import INITIAL_GAME from '../data/game';
+import MESSAGES from '../data/messages';
+import WORD_ENDINGS from '../data/word-endings';
+
+import {changeLevel, changeLife, changeTime, calculateScore, getResultMessage, getRatingMessage, getWordEnding} from '../utils/util';
 import {assert} from 'chai';
-import {changeLevel, changeLife, changeTime, calculateScore, getResultMessage, getRatingMessage, getWordEnding} from './util';
-import INITIAL_GAME from './data/game';
-import MESSAGES from './data/messages';
-import WORD_ENDINGS from './data/word-endings';
 
 describe(`changeLevel()`, () => {
   it(`should update level of the game`, () => {

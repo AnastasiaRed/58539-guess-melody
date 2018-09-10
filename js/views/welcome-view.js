@@ -1,12 +1,17 @@
 import INITIAL_GAME from '../data/game';
 import WORD_ENDINGS from '../data/word-endings';
+import AbstractView from './abstract-view';
 
-import startGame from './game';
+import {getWordEnding} from '../utils/util';
+import startGame from '../game';
 
-import {getElementFromTemplate, getWordEnding} from '../util';
+export default class WelcomeView extends AbstractView {
+  constructor() {
+    super();
+  }
 
-export default () => {
-  const template = `
+  get template() {
+    return `
     <section class="welcome">
       <div class="welcome__logo">
         <img src="img/melody-logo.png" alt="Угадай мелодию" width="186" height="83">
@@ -21,14 +26,14 @@ export default () => {
       <p class="welcome__text">Удачи!</p>
     </section>
   `;
+  }
 
-  const welcomeScreen = getElementFromTemplate(template);
+  onPlayBtnClick() { }
 
-  const playBtn = welcomeScreen.querySelector(`.welcome__button`);
-  playBtn.addEventListener(`click`, () => {
-    startGame();
-  });
-
-  return welcomeScreen;
-};
-
+  bind() {
+    const playBtn = this.element.querySelector(`.welcome__button`);
+    playBtn.addEventListener(`click`, () => {
+      startGame();
+    });
+  }
+}
